@@ -1,0 +1,46 @@
+module service
+{
+enum ValueType
+{
+    BoolType,
+    DoubleType,
+    IntegerType,
+    PidConfigType,
+    nullType
+};
+
+struct PidConfig
+{
+  float kp;
+  float ki;
+  float kd;
+};
+
+union Value switch(ValueType)
+{
+  case BoolType:
+    long binaryValue;
+  case DoubleType:
+    float doubleValue;
+  case IntegerType:
+    long integerValue; 
+  case PidConfigType:
+    PidConfig pidConfigValue; 
+  default: long nullType;   
+};  
+
+struct CommandMsg
+{
+  @key Unsigned short id;
+  short cmd;
+  @optional Value value;
+};
+
+struct NotificationMsg
+{
+  @key Unsigned short id;
+  @key short notification;
+  @optional Value value;
+};
+
+};
